@@ -201,6 +201,7 @@ public interface Huobi {
       @QueryParam("end-date") String endDate,
       @QueryParam("from") String from,
       @QueryParam("direct") String direct,
+      @QueryParam("size") Integer size,
       @QueryParam("AccessKeyId") String apiKey,
       @QueryParam("SignatureMethod") String signatureMethod,
       @QueryParam("SignatureVersion") int signatureVersion,
