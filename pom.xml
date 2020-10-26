@@ -112,7 +112,6 @@
     <module>xchange-bitso</module>
     <module>xchange-bitstamp</module>
     <module>xchange-bittrex</module>
-    <module>xchange-bittrexV3</module>
     <module>xchange-bity</module>
     <module>xchange-bitz</module>
     <module>xchange-bl3p</module>
@@ -308,7 +307,7 @@
       <dependency>
         <groupId>org.mockito</groupId>
         <artifactId>mockito-core</artifactId>
-        <version>3.5.13</version>
+        <version>3.5.15</version>
         <scope>test</scope>
       </dependency>
 
