@@ -43,7 +43,7 @@ class HuobiTradeServiceRaw extends HuobiBaseService {
             startDate == null ? null : DATE_FORMAT.format(startDate),
             endDate == null ? null : DATE_FORMAT.format(endDate),
             startId,
-            "next",
+            "prev",
             exchange.getExchangeSpecification().getApiKey(),
             HuobiDigest.HMAC_SHA_256,
             2,
