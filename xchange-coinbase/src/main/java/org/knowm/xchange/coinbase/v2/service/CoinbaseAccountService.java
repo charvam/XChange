@@ -7,6 +7,7 @@ import java.util.List;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseAccountData;
+import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseTransactionsResponse;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
@@ -62,5 +63,10 @@ public final class CoinbaseAccountService extends CoinbaseAccountServiceRaw
   @Override
   public TradeHistoryParams createFundingHistoryParams() {
     throw new NotAvailableFromExchangeException();
+  }
+
+  @Override
+  public CoinbaseTransactionsResponse getTransactions(String accountId) throws IOException {
+    return super.getTransactions(accountId);
   }
 }
