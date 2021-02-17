@@ -13,6 +13,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.*;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellTransactionsResponse;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -52,6 +53,25 @@ public interface CoinbaseAuthenticated extends Coinbase {
       @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
       @PathParam("accountId") String accountId)
       throws IOException, CoinbaseException;
+  @GET
+  @Path("accounts/{accountId}/buys")
+  CoinbaseBuySellTransactionsResponse getBuys(
+          @HeaderParam(CB_VERSION) String apiVersion,
+          @HeaderParam(CB_ACCESS_KEY) String apiKey,
+          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+          @PathParam("accountId") String accountId)
+          throws IOException, CoinbaseException;
+
+  @GET
+  @Path("accounts/{accountId}/sells")
+  CoinbaseBuySellTransactionsResponse getSells(
+          @HeaderParam(CB_VERSION) String apiVersion,
+          @HeaderParam(CB_ACCESS_KEY) String apiKey,
+          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+          @PathParam("accountId") String accountId)
+          throws IOException, CoinbaseException;
 
   @GET
   @Path("accounts/{accountId}/deposits")

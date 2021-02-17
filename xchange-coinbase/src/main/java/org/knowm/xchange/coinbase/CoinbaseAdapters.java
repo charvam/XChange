@@ -1,11 +1,5 @@
 package org.knowm.xchange.coinbase;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
 import org.knowm.xchange.coinbase.dto.account.CoinbaseUser;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseHistoricalSpotPrice;
 import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseMoney;
@@ -14,6 +8,7 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellTransactionV2;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -24,6 +19,13 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /** jamespedwards42 */
 public final class CoinbaseAdapters {
@@ -42,6 +44,35 @@ public final class CoinbaseAdapters {
     final AccountInfo accountInfoTemporaryName =
         new AccountInfo(username, Wallet.Builder.from(Arrays.asList(balance)).build());
     return accountInfoTemporaryName;
+  }
+
+  public static UserTrades adaptTrades(
+          List<CoinbaseBuySellTransactionV2> buyTransactions,
+          List<CoinbaseBuySellTransactionV2> sellTransactions
+  ) {
+    final List<UserTrade> trades = new ArrayList<>();
+    for (CoinbaseBuySellTransactionV2 buyTransaction : buyTransactions) {
+      trades.add(adaptTrade(buyTransaction, OrderType.BID));
+    }
+    for (CoinbaseBuySellTransactionV2 sellTransaction : sellTransactions) {
+      trades.add(adaptTrade(sellTransaction, OrderType.ASK));
+    }
+
+    return new UserTrades(trades, TradeSortType.SortByTimestamp);
+  }
+
+  public static UserTrade adaptTrade(CoinbaseBuySellTransactionV2 transaction, OrderType orderType) {
+    return new UserTrade.Builder()
+      .type(orderType)
+      .originalAmount(transaction.getAmount().getAmount())
+      .currencyPair(new CurrencyPair(transaction.getAmount().getCurrency(), transaction.getTotal().getCurrency()))
+      .price(transaction.getSubTotal().getAmount())
+      .timestamp(Date.from(transaction.getCreatedAt().toInstant()))
+      .id(transaction.getId())
+      .orderId(transaction.getTransaction().getId())
+      .feeAmount(transaction.getFee().getAmount())
+      .feeCurrency(Currency.getInstance(transaction.getFee().getCurrency()))
+      .build();
   }
 
   public static UserTrades adaptTrades(CoinbaseTransfers transfers) {
