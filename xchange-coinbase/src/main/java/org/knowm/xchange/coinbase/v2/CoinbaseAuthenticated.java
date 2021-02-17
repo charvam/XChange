@@ -59,7 +59,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   CoinbaseBuySellTransactionsResponse getBuys(
           @HeaderParam(CB_VERSION) String apiVersion,
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
-          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+          @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
           @PathParam("accountId") String accountId,
           @QueryParam("limit") int limit,
@@ -72,7 +72,7 @@ public interface CoinbaseAuthenticated extends Coinbase {
   CoinbaseBuySellTransactionsResponse getSells(
           @HeaderParam(CB_VERSION) String apiVersion,
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
-          @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
+          @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
           @PathParam("accountId") String accountId,
           @QueryParam("limit") int limit,
