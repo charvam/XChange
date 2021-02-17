@@ -47,15 +47,12 @@ public final class CoinbaseAdapters {
   }
 
   public static UserTrades adaptTrades(
-          List<CoinbaseBuySellTransactionV2> buyTransactions,
-          List<CoinbaseBuySellTransactionV2> sellTransactions
+          List<CoinbaseBuySellTransactionV2> transactions,
+          OrderType orderType
   ) {
     final List<UserTrade> trades = new ArrayList<>();
-    for (CoinbaseBuySellTransactionV2 buyTransaction : buyTransactions) {
-      trades.add(adaptTrade(buyTransaction, OrderType.BID));
-    }
-    for (CoinbaseBuySellTransactionV2 sellTransaction : sellTransactions) {
-      trades.add(adaptTrade(sellTransaction, OrderType.ASK));
+    for (CoinbaseBuySellTransactionV2 transaction : transactions) {
+      trades.add(adaptTrade(transaction, orderType));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);

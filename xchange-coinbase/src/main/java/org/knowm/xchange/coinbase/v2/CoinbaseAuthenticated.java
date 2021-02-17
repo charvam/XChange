@@ -10,6 +10,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.*;
@@ -60,7 +61,10 @@ public interface CoinbaseAuthenticated extends Coinbase {
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
           @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
-          @PathParam("accountId") String accountId)
+          @PathParam("accountId") String accountId,
+          @QueryParam("limit") int limit,
+          @QueryParam("starting_after") String startingAfter
+  )
           throws IOException, CoinbaseException;
 
   @GET
@@ -70,7 +74,10 @@ public interface CoinbaseAuthenticated extends Coinbase {
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
           @HeaderParam(CB_ACCESS_SIGN) ParamsDigest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
-          @PathParam("accountId") String accountId)
+          @PathParam("accountId") String accountId,
+          @QueryParam("limit") int limit,
+          @QueryParam("starting_after") String startingAfter
+  )
           throws IOException, CoinbaseException;
 
   @GET
