@@ -57,13 +57,13 @@ public interface CoinbaseAuthenticated extends Coinbase {
   @GET
   @Path("accounts/{accountId}/buys")
   CoinbaseBuySellTransactionsResponse getBuys(
+          @QueryParam("limit") Integer limit,
+          @QueryParam("starting_after") String startingAfter,
           @HeaderParam(CB_VERSION) String apiVersion,
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
           @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
-          @PathParam("accountId") String accountId,
-          @QueryParam("limit") int limit,
-          @QueryParam("starting_after") String startingAfter
+          @PathParam("accountId") String accountId
   )
           throws IOException, CoinbaseException;
 

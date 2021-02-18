@@ -74,13 +74,13 @@ public final class CoinbaseTradeService extends CoinbaseTradeServiceRaw implemen
     final String apiKey = exchange.getExchangeSpecification().getApiKey();
     final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
     final CoinbaseBuySellTransactionsResponse buys = coinbase.getBuys(
+            params.getLimit(),
+            params.getStartId(),
             Coinbase.CB_VERSION_VALUE,
             apiKey,
             signatureCreator2,
             timestamp,
-            accountId,
-            params.getLimit(),
-            params.getStartId()
+            accountId
     );
     return CoinbaseAdapters.adaptTrades(buys.getData(), Order.OrderType.BID);
   }
