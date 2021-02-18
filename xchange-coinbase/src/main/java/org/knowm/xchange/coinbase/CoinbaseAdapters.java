@@ -8,7 +8,7 @@ import org.knowm.xchange.coinbase.dto.marketdata.CoinbaseSpotPriceHistory;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfer;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransferType;
 import org.knowm.xchange.coinbase.dto.trade.CoinbaseTransfers;
-import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellTransactionV2;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySell;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -46,19 +46,16 @@ public final class CoinbaseAdapters {
     return accountInfoTemporaryName;
   }
 
-  public static UserTrades adaptTrades(
-          List<CoinbaseBuySellTransactionV2> transactions,
-          OrderType orderType
-  ) {
+  public static UserTrades adaptTrades(List<CoinbaseBuySell> transactions, OrderType orderType) {
     final List<UserTrade> trades = new ArrayList<>();
-    for (CoinbaseBuySellTransactionV2 transaction : transactions) {
+    for (CoinbaseBuySell transaction : transactions) {
       trades.add(adaptTrade(transaction, orderType));
     }
 
     return new UserTrades(trades, TradeSortType.SortByTimestamp);
   }
 
-  public static UserTrade adaptTrade(CoinbaseBuySellTransactionV2 transaction, OrderType orderType) {
+  public static UserTrade adaptTrade(CoinbaseBuySell transaction, OrderType orderType) {
     return new UserTrade.Builder()
       .type(orderType)
       .originalAmount(transaction.getAmount().getAmount())

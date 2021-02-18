@@ -7,11 +7,11 @@ import org.knowm.xchange.coinbase.v2.dto.CoinbaseAmount;
 import java.time.ZonedDateTime;
 
 @Getter
-public class CoinbaseBuySellTransactionV2 {
+public class CoinbaseBuySell {
   private final String id;
   private final String status;
-  private final CoinbaseBuySellTransactionV2ResourceField paymentMethod;
-  private final CoinbaseBuySellTransactionV2ResourceField transaction;
+  private final CoinbaseBuySellResourceField paymentMethod;
+  private final CoinbaseBuySellResourceField transaction;
   private final CoinbaseAmount amount;
   private final CoinbaseAmount total;
   private final CoinbaseAmount subTotal;
@@ -24,11 +24,11 @@ public class CoinbaseBuySellTransactionV2 {
   private final CoinbaseAmount fee;
   private final String payoutAt;
 
-    public CoinbaseBuySellTransactionV2(
+    public CoinbaseBuySell(
       @JsonProperty("id") String id,
       @JsonProperty("status") String status,
-      @JsonProperty("payment_method") CoinbaseBuySellTransactionV2ResourceField paymentMethod,
-      @JsonProperty("transaction") CoinbaseBuySellTransactionV2ResourceField transaction,
+      @JsonProperty("payment_method") CoinbaseBuySellResourceField paymentMethod,
+      @JsonProperty("transaction") CoinbaseBuySellResourceField transaction,
       @JsonProperty("amount") CoinbaseAmount amount,
       @JsonProperty("total") CoinbaseAmount total,
       @JsonProperty("subtotal") CoinbaseAmount subTotal,

@@ -14,7 +14,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.coinbase.v2.dto.CoinbaseException;
 import org.knowm.xchange.coinbase.v2.dto.account.*;
-import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellTransactionsResponse;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import si.mazi.rescu.ParamsDigest;
 
 @Path("/")
@@ -56,26 +56,26 @@ public interface CoinbaseAuthenticated extends Coinbase {
       throws IOException, CoinbaseException;
   @GET
   @Path("accounts/{accountId}/buys")
-  CoinbaseBuySellTransactionsResponse getBuys(
-          @QueryParam("limit") Integer limit,
-          @QueryParam("starting_after") String startingAfter,
-          @HeaderParam(CB_VERSION) String apiVersion,
-          @HeaderParam(CB_ACCESS_KEY) String apiKey,
-          @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
-          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
-          @PathParam("accountId") String accountId
-  )
-          throws IOException, CoinbaseException;
-
-  @GET
-  @Path("accounts/{accountId}/sells")
-  CoinbaseBuySellTransactionsResponse getSells(
+  CoinbaseBuySellResponse getBuys(
           @HeaderParam(CB_VERSION) String apiVersion,
           @HeaderParam(CB_ACCESS_KEY) String apiKey,
           @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
           @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
           @PathParam("accountId") String accountId,
-          @QueryParam("limit") int limit,
+          @QueryParam("limit") Integer limit,
+          @QueryParam("starting_after") String startingAfter
+          )
+          throws IOException, CoinbaseException;
+
+  @GET
+  @Path("accounts/{accountId}/sells")
+  CoinbaseBuySellResponse getSells(
+          @HeaderParam(CB_VERSION) String apiVersion,
+          @HeaderParam(CB_ACCESS_KEY) String apiKey,
+          @HeaderParam(CB_ACCESS_SIGN) CoinbaseV2Digest signature,
+          @HeaderParam(CB_ACCESS_TIMESTAMP) BigDecimal timestamp,
+          @PathParam("accountId") String accountId,
+          @QueryParam("limit") Integer limit,
           @QueryParam("starting_after") String startingAfter
   )
           throws IOException, CoinbaseException;

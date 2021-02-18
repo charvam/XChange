@@ -4,13 +4,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
-public class CoinbaseBuySellTransactionV2ResourceField {
+public class CoinbaseBuySellResourceField {
 
   protected String id;
   protected String resource;
   protected String resourcePath;
 
-  public CoinbaseBuySellTransactionV2ResourceField(
+  public CoinbaseBuySellResourceField(
       @JsonProperty("id") String id,
       @JsonProperty("resource") String resource,
       @JsonProperty("resource_path") String resourcePath) {

@@ -6,10 +6,14 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.coinbase.CoinbaseAdapters;
 import org.knowm.xchange.coinbase.v2.Coinbase;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseBuyData.CoinbaseBuy;
 import org.knowm.xchange.coinbase.v2.dto.account.CoinbaseSellData.CoinbaseSell;
+import org.knowm.xchange.coinbase.v2.dto.account.transactions.CoinbaseBuySellResponse;
 import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.UserTrades;
 
 class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
 
@@ -129,5 +133,35 @@ class CoinbaseTradeServiceRaw extends CoinbaseBaseService {
       this.commit = commit;
       this.quote = quote;
     }
+  }
+
+  public UserTrades getBuyTradeHistory(CoinbaseTradeHistoryParams params, String accountId) throws IOException {
+    final String apiKey = exchange.getExchangeSpecification().getApiKey();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+    final CoinbaseBuySellResponse buys = coinbase.getBuys(
+            Coinbase.CB_VERSION_VALUE,
+            apiKey,
+            signatureCreator2,
+            timestamp,
+            accountId,
+            params.getLimit(),
+            params.getStartId()
+    );
+    return CoinbaseAdapters.adaptTrades(buys.getData(), Order.OrderType.BID);
+  }
+
+  public UserTrades getSellTradeHistory(CoinbaseTradeHistoryParams params, String accountId) throws IOException {
+    final String apiKey = exchange.getExchangeSpecification().getApiKey();
+    final BigDecimal timestamp = coinbase.getTime(Coinbase.CB_VERSION_VALUE).getData().getEpoch();
+    final CoinbaseBuySellResponse sells = coinbase.getSells(
+            Coinbase.CB_VERSION_VALUE,
+            apiKey,
+            signatureCreator2,
+            timestamp,
+            accountId,
+            params.getLimit(),
+            params.getStartId()
+    );
+    return CoinbaseAdapters.adaptTrades(sells.getData(), Order.OrderType.ASK);
   }
 }
