@@ -24,7 +24,8 @@ public class CoinbaseV2Digest extends BaseParamsDigest {
         restInvocation.getParamValue(HeaderParam.class, CB_ACCESS_TIMESTAMP).toString();
     String methodPath =
         "/v2" + restInvocation.getPath(); // todo  - move the /v2 bit of the path to the interface
-    String message = timestamp + restInvocation.getHttpMethod() + methodPath;
+    final String queryString = restInvocation.getQueryString();
+    String message = timestamp + restInvocation.getHttpMethod() + methodPath + queryString;
     String body = null; // todo - deal with POST requests
 
     String sign = DigestUtils.bytesToHex(getMac().doFinal(message.getBytes()));
